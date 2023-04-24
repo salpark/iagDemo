@@ -6,16 +6,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class CabinCodeTest {
 
-    @ParameterizedTest
-    @ValueSource(strings = {"AA", "AAA", "AAAA"})
-    public void rejectWrongLengthCabinCodes(String incorrectLength) {
-        Assertions.assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() ->
-                CabinCode.of(incorrectLength));
-    }
+  @ParameterizedTest
+  @ValueSource(strings = {"AA", "AAA", "AAAA"})
+  public void rejectWrongLengthCabinCodes(String incorrectLength) {
+    Assertions.assertThatExceptionOfType(IllegalStateException.class)
+        .isThrownBy(() -> CabinCode.of(incorrectLength));
+  }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"A", "B", "C", "M", "W", "J", "F"})
-    public void successfullyCreateValidCabinCodes(String validCode) {
-        Assertions.assertThatNoException().isThrownBy(() -> CabinCode.of(validCode));
-    }
+  @ParameterizedTest
+  @ValueSource(strings = {"A", "B", "C", "M", "W", "J", "F"})
+  public void successfullyCreateValidCabinCodes(String validCode) {
+    Assertions.assertThatNoException().isThrownBy(() -> CabinCode.of(validCode));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"F", "f"})
+  public void acceptUpperOrLowerCaseCode(String validCode) {
+    Assertions.assertThat(CabinCode.of(validCode)).isEqualTo(CabinCode.of("F"));
+  }
 }
