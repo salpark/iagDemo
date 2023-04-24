@@ -3,9 +3,9 @@ package org.allcorn.iagDemo.api;
 import org.allcorn.iagDemo.database.CabinRepository;
 import org.allcorn.iagDemo.model.CabinCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class CabinService {
 
   public static final int BONUS_FOR_UNKNOWN_CABIN_CODE = 0;
