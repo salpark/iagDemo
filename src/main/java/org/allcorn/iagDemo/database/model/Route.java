@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 
 @Entity
 public class Route {
+
+  public Route() {
+
+  }
   public Route(Airport start_airport, Airport end_airport, long points) {
     this.start_airport = start_airport;
     this.end_airport = end_airport;
@@ -28,5 +32,17 @@ public class Route {
 
   public long getPoints() {
     return points;
+  }
+
+  public void setStart_airport(Airport start_airport) {
+    this.start_airport = start_airport;
+  }
+
+  public void setEnd_airport(Airport end_airport) {
+    this.end_airport = end_airport;
+  }
+
+  public void setPoints(long points) {
+    this.points = points;
   }
 }
