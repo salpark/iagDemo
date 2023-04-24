@@ -14,10 +14,10 @@ public abstract class _CabinCode extends Wrapper<String> {
   }
 
   @Value.Check
-  CabinCode forceConsistentCase() {
+  _CabinCode forceConsistentCase() {
     if (Character.isLowerCase(value().charAt(0))) {
       return CabinCode.of(value().toUpperCase());
     }
-    return (CabinCode) this;
+    return this;
   }
 }
