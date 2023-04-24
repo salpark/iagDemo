@@ -1,0 +1,44 @@
+openapi: "3.0.0"
+info:
+  title: IAG Demo
+  description: IAG java demo by Simon Allcorn
+  version: 0.0.1
+paths:
+  /points/estimate:
+    get:
+      summary: Return an estimate of the points that could be earned
+      description: |
+        This endpoint will return the estimated number of avios that
+        could be earned for a given route and cabin type.
+      parameters:
+        - name: cabinCode
+          in: query
+          schema:
+            type: CabinCode
+          required: false
+          description: |
+            The type of cabin to book. This can be M, W, J or F:
+            M - World Traveller
+            W - World Traveller Plus
+            J - Club World
+            F - First
+        - name: departure
+          in: query
+          schema:
+            type: IATA
+          required: true
+          description: The IATA airport code that the flight leaves from
+        - name: destination
+          in: query
+          schema:
+            type: IATA
+          required: true
+          description: The IATA airport code that the flight will arrive at
+      responses:
+        '200':
+          description: The estimate number of avios that would be earned
+          content:
+            application/json:
+              schema:
+                type: PointsEstimatedResult
+
