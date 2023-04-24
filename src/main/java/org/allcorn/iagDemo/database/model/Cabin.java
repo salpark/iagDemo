@@ -10,15 +10,12 @@ import org.hibernate.type.SqlTypes;
 @Entity
 public class Cabin {
 
-    @Id
-    @GeneratedValue
-    private long Id;
+  @Id @GeneratedValue private long cabin_id;
 
-    private int bonusPercentage;
+  private int bonusPercentage;
 
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private CabinCode code;
+  @JdbcTypeCode(SqlTypes.VARCHAR)
+  private CabinCode code;
 
-    private String description;
-
+  private String description;
 }
