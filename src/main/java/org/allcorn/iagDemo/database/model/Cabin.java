@@ -9,6 +9,10 @@ import org.hibernate.type.SqlTypes;
 
 @Entity
 public class Cabin {
+  public Cabin(int bonusPercentage, CabinCode code) {
+    this.bonusPercentage = bonusPercentage;
+    this.code = code;
+  }
 
   @Id @GeneratedValue private long cabin_id;
 
@@ -18,4 +22,12 @@ public class Cabin {
   private CabinCode code;
 
   private String description;
+
+  public int getBonusPercentage() {
+    return bonusPercentage;
+  }
+
+  public CabinCode getCode() {
+    return code;
+  }
 }
