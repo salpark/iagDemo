@@ -40,5 +40,5 @@ paths:
           content:
             application/json:
               schema:
-                type: PointsEstimatedResult
+                type: PointsEstimatedBase
 

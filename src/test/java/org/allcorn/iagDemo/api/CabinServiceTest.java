@@ -2,9 +2,10 @@ package org.allcorn.iagDemo.api;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.allcorn.iagDemo.database.CabinRepository;
-import org.allcorn.iagDemo.database.model.Cabin;
+import org.allcorn.iagDemo.database.model.DbCabin;
 import org.allcorn.iagDemo.model.CabinCode;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,15 +32,12 @@ public class CabinServiceTest {
   private static final int W_BONUS = 10;
   private static final int J_BONUS = 15;
   private static final int F_BONUS = 20;
+  private static final DbCabin F_CABIN = new DbCabin(F_BONUS, F_CABINCODE);
+  private static final DbCabin M_CABIN = new DbCabin(M_BONUS, M_CABINCODE);
+  private static final DbCabin W_CABIN = new DbCabin(W_BONUS, W_CABINCODE);
+  private static final DbCabin J_CABIN = new DbCabin(J_BONUS, J_CABINCODE);
 
-  private static final int DEFAULT_BONUS = 0;
-
-  private static final Cabin F_CABIN = new Cabin(F_BONUS, F_CABINCODE);
-  private static final Cabin M_CABIN = new Cabin(M_BONUS, M_CABINCODE);
-  private static final Cabin W_CABIN = new Cabin(W_BONUS, W_CABINCODE);
-  private static final Cabin J_CABIN = new Cabin(J_BONUS, J_CABINCODE);
-
-  private static final List<Cabin> ALL_CABIN_RECORDS =
+  private static final List<DbCabin> ALL_CABIN_RECORDS =
       ImmutableList.of(F_CABIN, M_CABIN, W_CABIN, J_CABIN);
   private CabinService underTest;
 
@@ -54,7 +52,8 @@ public class CabinServiceTest {
   @ParameterizedTest
   @MethodSource("correctBonusParams")
   public void shouldSelectCorrectBonus(String rawCabinCode, int expectedBonus) {
-    Assertions.assertThat(underTest.bonus(CabinCode.of(rawCabinCode))).isEqualTo(expectedBonus);
+    Assertions.assertThat(underTest.bonus(CabinCode.of(rawCabinCode)))
+        .isEqualTo(Optional.of(expectedBonus));
   }
 
   private static Stream<Arguments> correctBonusParams() {
@@ -63,7 +62,7 @@ public class CabinServiceTest {
   }
 
   @Test
-  public void shouldReturnDefaultBonusForUnknownCabin() {
-    Assertions.assertThat(underTest.bonus(UNKNOWN_CABINCODE)).isEqualTo(DEFAULT_BONUS);
+  public void shouldReturnEmptyOptionalForUnknownCabin() {
+    Assertions.assertThat(underTest.bonus(UNKNOWN_CABINCODE)).isEmpty();
   }
 }

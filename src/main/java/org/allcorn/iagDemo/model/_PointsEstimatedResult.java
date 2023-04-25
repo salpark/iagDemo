@@ -1,13 +1,11 @@
 package org.allcorn.iagDemo.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.immutables.value.Value;
 
 @Value.Immutable
-public interface _PointsEstimatedResult {
+@JsonSerialize(as = PointsEstimatedResult.class)
+public interface _PointsEstimatedResult extends PointsEstimatedBase {
 
-  Airport departFrom();
-
-  Airport arriveAt();
-
-  String placeholder(); // todo update to points estimate
+  Long points();
 }

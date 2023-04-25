@@ -3,12 +3,12 @@ package org.allcorn.iagDemo.database.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Route {
+@Table(name = "ROUTE")
+public class DbRoute {
 
-  public Route() {
+  public DbRoute() {}
 
-  }
-  public Route(Airport start_airport, Airport end_airport, long points) {
+  public DbRoute(DbAirport start_airport, DbAirport end_airport, long points) {
     this.start_airport = start_airport;
     this.end_airport = end_airport;
     this.points = points;
@@ -16,17 +16,17 @@ public class Route {
 
   @Id @GeneratedValue private long route_id;
 
-  @ManyToOne @JoinColumn private Airport start_airport;
+  @ManyToOne @JoinColumn private DbAirport start_airport;
 
-  @ManyToOne @JoinColumn private Airport end_airport;
+  @ManyToOne @JoinColumn private DbAirport end_airport;
 
   private long points;
 
-  public Airport getStart_airport() {
+  public DbAirport getStart_airport() {
     return start_airport;
   }
 
-  public Airport getEnd_airport() {
+  public DbAirport getEnd_airport() {
     return end_airport;
   }
 
@@ -34,11 +34,11 @@ public class Route {
     return points;
   }
 
-  public void setStart_airport(Airport start_airport) {
+  public void setStart_airport(DbAirport start_airport) {
     this.start_airport = start_airport;
   }
 
-  public void setEnd_airport(Airport end_airport) {
+  public void setEnd_airport(DbAirport end_airport) {
     this.end_airport = end_airport;
   }
 

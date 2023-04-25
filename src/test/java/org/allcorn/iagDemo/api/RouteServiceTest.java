@@ -4,8 +4,9 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.stream.Stream;
 import org.allcorn.iagDemo.database.RouteRepository;
-import org.allcorn.iagDemo.database.model.Airport;
-import org.allcorn.iagDemo.database.model.Route;
+import org.allcorn.iagDemo.database.model.DbAirport;
+import org.allcorn.iagDemo.database.model.DbRoute;
+import org.allcorn.iagDemo.model.AirportName;
 import org.allcorn.iagDemo.model.IATA;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,9 @@ public class RouteServiceTest {
 
   private static final long POINTS_FOR_UNKNOWN_ROUTE = 500;
 
+  private static final AirportName AIRPORT_NAME_1 = AirportName.of("An airport");
+  private static final AirportName AIRPORT_NAME_2 = AirportName.of("Another airport");
+
   @Mock RouteRepository mockRouteRepository;
 
   private RouteService underTest;
@@ -39,8 +43,8 @@ public class RouteServiceTest {
   public void setup() {
     underTest = new RouteService(mockRouteRepository);
 
-    List<Route> allRoutes =
-        ImmutableList.<Route>builder()
+    List<DbRoute> allRoutes =
+        ImmutableList.<DbRoute>builder()
             .addAll(createRoute(LHR, SFO, 2000))
             .addAll(createRoute(SFO, JFK, 200))
             .addAll(createRoute(JFK, LHR, 1000))
@@ -75,12 +79,12 @@ public class RouteServiceTest {
     Assertions.assertThat(outboundPoints).isEqualTo(returnPoints);
   }
 
-  private List<Route> createRoute(IATA start, IATA end, long points) {
-    Airport startAirport = new Airport(start);
-    Airport endAirport = new Airport(end);
+  private List<DbRoute> createRoute(IATA start, IATA end, long points) {
+    DbAirport startAirport = new DbAirport(start, AIRPORT_NAME_1);
+    DbAirport endAirport = new DbAirport(end, AIRPORT_NAME_2);
 
-    Route outboundLeg = new Route(startAirport, endAirport, points);
-    Route returnLeg = new Route(endAirport, startAirport, points);
+    DbRoute outboundLeg = new DbRoute(startAirport, endAirport, points);
+    DbRoute returnLeg = new DbRoute(endAirport, startAirport, points);
 
     return ImmutableList.of(outboundLeg, returnLeg);
   }
