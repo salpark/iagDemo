@@ -139,9 +139,4 @@ public class PointsApiResourceTest {
               assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
             });
   }
-
-
-  //todo knownAirportsAndCabinCodeNotSupplied
-
-  //todo knownAirportsWithKnownCabinCode
 }

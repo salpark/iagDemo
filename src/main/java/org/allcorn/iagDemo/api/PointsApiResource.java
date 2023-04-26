@@ -14,7 +14,6 @@ public class PointsApiResource implements PointsApiDelegate {
 
   private final RouteService routeService;
   private final AirportService airportService;
-
   private final CabinService cabinService;
 
   @Autowired
@@ -33,71 +32,37 @@ public class PointsApiResource implements PointsApiDelegate {
 
     long pointsWithoutBonus = routeService.pointsForRoute(departure, destination);
 
-    //    PointsEstimatedResultNoCabin yy;
-    Optional<PointsEstimatedBase> result =
-        cabinCode.map(
-            cc -> {
-              // to do calculate bonus
-              long pointsIncludingBonus =
-                  cabinService
-                      .bonus(cc)
-                      .map(bonusPercent -> calculateBonus(pointsWithoutBonus, bonusPercent))
-                      .orElse(pointsWithoutBonus);
-
-              return PointsEstimatedResult.builder()
-                  .departFrom(airportService.findByIATA(departure))
-                  .arriveAt(airportService.findByIATA(destination))
-                  .points(pointsIncludingBonus)
-                  .build();
-            });
-
-    //todo this is clearly a bit crap, need to refactor.
-    PointsEstimatedBase zz =
-        PointsEstimatedResultNoCabin.builder()
-            .departFrom(airportService.findByIATA(departure))
-            .arriveAt(airportService.findByIATA(destination))
-            .points(
-                cabinService.bonus().entrySet().stream()
-                    .map(
-                        es ->
-                            Pair.of(es.getKey(), calculateBonus(pointsWithoutBonus, es.getValue())))
-                    .collect(ImmutableMap.toImmutableMap(k -> k.getFirst(), v -> v.getSecond())))
-            .build();
-
-    return new ResponseEntity<>(result.isPresent() ? result.get() : zz, HttpStatus.OK);
-    //            .orElse({
-    //                     PointsEstimatedResultNoCabin yy = PointsEstimatedResultNoCabin.builder()
-    //                            .departFrom(airportService.findByIATA(departure))
-    //                            .arriveAt(airportService.findByIATA(destination))
-    //                            .points(cabinService.bonus().entrySet().stream()
-    //                                    .map(es -> Pair.of(es.getKey(),
-    //                                            calculateBonus(pointsWithoutBonus,
-    // es.getValue())))
-    //                                    .collect(ImmutableMap.toImmutableMap(k -> k.getFirst(),
-    //                                            v -> v.getSecond()))).build();
-    //                    return (PointsEstimatedBase) yy ;
-    //            });
-    // .build());
-
-    ////    PointsEstimatedResult result =
-    //    PointsEstimatedResult.Builder builder = PointsEstimatedResult.builder()
-    //            .departFrom(airportService.findByIATA(departure))
-    //            .arriveAt(airportService.findByIATA(destination));
-    //
-    //    cabinService.bonus(cabinCode).ifPresentOrElse(b ->
-    //            builder.points(b),
-    //            () -> builder.pointsForAllCabins(ImmutableMap.<String, Long>of("first", 20000L,
-    //                    "cattle", 2L)));
-
-    // if options points is there
-    //    builder.points()
-    //            .points(Either.left(routeService.pointsForRoute(departure, destination)))
-    //            .build();
-    //        PointsEstimatedResult.builder().points(100L).build();
-
-    //    return new ResponseEntity<>(result, HttpStatus.OK);
-    //    return null;
-
+    return new ResponseEntity<>(
+        cabinCode
+            .map(
+                cc ->
+                    (PointsEstimatedBase)
+                        PointsEstimatedResult.builder()
+                            .departFrom(airportService.findByIATA(departure))
+                            .arriveAt(airportService.findByIATA(destination))
+                            .points(
+                                cabinService
+                                    .bonus(cc)
+                                    .map(
+                                        bonusPercent ->
+                                            calculateBonus(pointsWithoutBonus, bonusPercent))
+                                    .orElse(pointsWithoutBonus))
+                            .build())
+            .orElse(
+                PointsEstimatedResultNoCabin.builder()
+                    .departFrom(airportService.findByIATA(departure))
+                    .arriveAt(airportService.findByIATA(destination))
+                    .points(
+                        cabinService.bonus().entrySet().stream()
+                            .map(
+                                es ->
+                                    Pair.of(
+                                        es.getKey(),
+                                        calculateBonus(pointsWithoutBonus, es.getValue())))
+                            .collect(
+                                ImmutableMap.toImmutableMap(k -> k.getFirst(), v -> v.getSecond())))
+                    .build()),
+        HttpStatus.OK);
   }
 
   private long calculateBonus(long points, int bonusPercentage) {
