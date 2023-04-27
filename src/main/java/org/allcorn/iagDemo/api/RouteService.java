@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RouteService {
 
-  // todo fix name
-  private static final long POINTS_FOR_UNKNOWN_ROUTEyy = 500;
+  private static final long POINTS_FOR_UNKNOWN_ROUTE = 500;
   private final RouteRepository routeRepository;
 
   @Autowired
@@ -25,6 +24,6 @@ public class RouteService {
                     && r.getEndAirport().getCode().equals(end))
         .map(r -> r.getPoints())
         .findFirst()
-        .orElse(POINTS_FOR_UNKNOWN_ROUTEyy);
+        .orElse(POINTS_FOR_UNKNOWN_ROUTE);
   }
 }

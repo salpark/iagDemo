@@ -84,8 +84,6 @@ class IagDemoApplicationTests {
             });
   }
 
-  // todo check all airports have been used
-
   @Test
   @DisplayName("Correctly report points LGW to YYZ World Traveller Plus")
   public void correctPointsForLGWtoYYZTravellerPlus() {
@@ -101,7 +99,6 @@ class IagDemoApplicationTests {
                   .isEqualTo("Lester B. Pearson International");
             });
   }
-  // tests LGW to YYZ World tr plus
 
   @Test
   @DisplayName("Correctly report points unknown airport to YYZ Club world")
