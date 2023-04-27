@@ -12,9 +12,10 @@ public class DbCabin {
 
   public DbCabin() {}
 
-  public DbCabin(int bonusPercentage, CabinCode code) {
+  public DbCabin(int bonusPercentage, CabinCode code, String description) {
     this.bonusPercentage = bonusPercentage;
     this.code = code.value();
+    this.description = description;
   }
 
   @Id @GeneratedValue private long cabin_id;

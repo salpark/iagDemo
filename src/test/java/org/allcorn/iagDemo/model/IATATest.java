@@ -18,4 +18,10 @@ public class IATATest {
   public void successfullyCreateValidIATACodes(String validCode) {
     Assertions.assertThatNoException().isThrownBy(() -> IATA.of(validCode));
   }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"lhr", "LHR", "Lhr", "LHr", "lhR", "lHR"})
+  public void acceptUpperOrLowerCaseIATACode(String validCode) {
+    Assertions.assertThat(IATA.of(validCode)).isEqualTo(IATA.of("LHR"));
+  }
 }

@@ -1,7 +1,9 @@
 package org.allcorn.iagDemo.api;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.allcorn.iagDemo.database.CabinRepository;
@@ -32,10 +34,16 @@ public class CabinServiceTest {
   private static final int W_BONUS = 10;
   private static final int J_BONUS = 15;
   private static final int F_BONUS = 20;
-  private static final DbCabin F_CABIN = new DbCabin(F_BONUS, F_CABINCODE);
-  private static final DbCabin M_CABIN = new DbCabin(M_BONUS, M_CABINCODE);
-  private static final DbCabin W_CABIN = new DbCabin(W_BONUS, W_CABINCODE);
-  private static final DbCabin J_CABIN = new DbCabin(J_BONUS, J_CABINCODE);
+
+  private static final String F_BONUS_DESCRIPTION = "First";
+  private static final String M_BONUS_DESCRIPTION = "World Traveller";
+  private static final String W_BONUS_DESCRIPTION = "World Traveller Plus";
+  private static final String J_BONUS_DESCRIPTION = "Club World";
+
+  private static final DbCabin F_CABIN = new DbCabin(F_BONUS, F_CABINCODE, F_BONUS_DESCRIPTION);
+  private static final DbCabin M_CABIN = new DbCabin(M_BONUS, M_CABINCODE, M_BONUS_DESCRIPTION);
+  private static final DbCabin W_CABIN = new DbCabin(W_BONUS, W_CABINCODE, W_BONUS_DESCRIPTION);
+  private static final DbCabin J_CABIN = new DbCabin(J_BONUS, J_CABINCODE, J_BONUS_DESCRIPTION);
 
   private static final List<DbCabin> ALL_CABIN_RECORDS =
       ImmutableList.of(F_CABIN, M_CABIN, W_CABIN, J_CABIN);
@@ -64,5 +72,18 @@ public class CabinServiceTest {
   @Test
   public void shouldReturnEmptyOptionalForUnknownCabin() {
     Assertions.assertThat(underTest.bonus(UNKNOWN_CABINCODE)).isEmpty();
+  }
+
+  @Test
+  public void getAllBonusesWithDescription() {
+    Assertions.assertThat(underTest.bonusWithDescription())
+        .containsExactlyInAnyOrderEntriesOf(
+            (Map)
+                ImmutableMap.builder()
+                    .put(F_BONUS_DESCRIPTION, F_BONUS)
+                    .put(M_BONUS_DESCRIPTION, M_BONUS)
+                    .put(W_BONUS_DESCRIPTION, W_BONUS)
+                    .put(J_BONUS_DESCRIPTION, J_BONUS)
+                    .build());
   }
 }

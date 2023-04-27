@@ -30,10 +30,13 @@ public class RouteServiceTest {
 
   private static final IATA UNKNOWN_2 = IATA.of("YYY");
 
-  private static final long POINTS_FOR_UNKNOWN_ROUTE = 500;
+  private static final long POINTS_FOR_UNKNOWN_ROUTE = 500L;
 
   private static final AirportName AIRPORT_NAME_1 = AirportName.of("An airport");
   private static final AirportName AIRPORT_NAME_2 = AirportName.of("Another airport");
+
+  private static final IATA LHR_LOWER = IATA.of("lhr");
+  private static final IATA SFO_MIXED = IATA.of("sFo");
 
   @Mock RouteRepository mockRouteRepository;
 
@@ -77,6 +80,11 @@ public class RouteServiceTest {
     long returnPoints = underTest.pointsForRoute(JFK, LHR);
 
     Assertions.assertThat(outboundPoints).isEqualTo(returnPoints);
+  }
+
+  @Test
+  public void IataCodesWithMixedCaseWorkAsExpected() {
+    Assertions.assertThat(underTest.pointsForRoute(LHR_LOWER, SFO_MIXED)).isEqualTo(2000);
   }
 
   private List<DbRoute> createRoute(IATA start, IATA end, long points) {

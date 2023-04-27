@@ -109,7 +109,7 @@ public class PointsApiResourceTest {
         .thenReturn(POINTS_UNKNOWN_ROUTE);
     Mockito.when(mockAirportService.findByIATA(IATA_UNKNOWN_1)).thenReturn(AIRPORT_UNKNOWN_1);
     Mockito.when(mockAirportService.findByIATA(IATA_UNKNOWN_2)).thenReturn(AIRPORT_UNKNOWN_2);
-    Mockito.when(mockCabinService.bonus())
+    Mockito.when(mockCabinService.bonusWithDescription())
         .thenReturn(
             ImmutableMap.<String, Integer>builder()
                 .put(CABIN_FIRST, BONUS_FIRST_CLASS)

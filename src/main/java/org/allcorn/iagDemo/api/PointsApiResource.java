@@ -53,7 +53,7 @@ public class PointsApiResource implements PointsApiDelegate {
                     .departFrom(airportService.findByIATA(departure))
                     .arriveAt(airportService.findByIATA(destination))
                     .points(
-                        cabinService.bonus().entrySet().stream()
+                        cabinService.bonusWithDescription().entrySet().stream()
                             .map(
                                 es ->
                                     Pair.of(
@@ -66,6 +66,6 @@ public class PointsApiResource implements PointsApiDelegate {
   }
 
   private long calculateBonus(long points, int bonusPercentage) {
-    return (points / 100) * (100 + bonusPercentage);
+    return Double.valueOf(((double) points / 100d) * (100 + bonusPercentage)).longValue();
   }
 }

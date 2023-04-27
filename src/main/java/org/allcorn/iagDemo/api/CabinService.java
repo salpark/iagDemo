@@ -18,11 +18,6 @@ public class CabinService {
     this.cabinRepository = cabinRepository;
   }
 
-  // todo not sure we need this exists ??
-  //  public boolean exists(CabinCode code) {
-  //    return getCabinDetails(code).findFirst().isPresent();
-  //  }
-
   public Optional<Integer> bonus(CabinCode code) {
     return cabinRepository.findAll().stream()
         .filter(c -> c.getCode().equals(code))
@@ -30,13 +25,8 @@ public class CabinService {
         .findFirst();
   }
 
-  // todo add a test for this.
-  public Map<String, Integer> bonus() {
+  public Map<String, Integer> bonusWithDescription() {
     return cabinRepository.findAll().stream()
         .collect(ImmutableMap.toImmutableMap(k -> k.getDescription(), v -> v.getBonusPercentage()));
   }
-
-  //  private Stream<DbCabin> getCabinDetails(CabinCode code) {
-  //    return cabinRepository.findAll().stream().filter(c -> c.getCode().equals(code));
-  //  }
 }
