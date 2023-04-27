@@ -21,8 +21,8 @@ public class RouteService {
     return routeRepository.findAll().stream()
         .filter(
             r ->
-                r.getStart_airport().getCode().equals(start)
-                    && r.getEnd_airport().getCode().equals(end))
+                r.getStartAirport().getCode().equals(start)
+                    && r.getEndAirport().getCode().equals(end))
         .map(r -> r.getPoints())
         .findFirst()
         .orElse(POINTS_FOR_UNKNOWN_ROUTEyy);

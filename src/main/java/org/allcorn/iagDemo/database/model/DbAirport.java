@@ -3,11 +3,16 @@ package org.allcorn.iagDemo.database.model;
 import jakarta.persistence.*;
 import org.allcorn.iagDemo.model.AirportName;
 import org.allcorn.iagDemo.model.IATA;
-import org.springframework.boot.context.properties.bind.Name;
 
 @Entity
 @Table(name = "AIRPORT", indexes = @Index(name = "IDX_AIRPORT_IATA", columnList = "code"))
 public class DbAirport {
+
+  @Id @GeneratedValue private long airport_id;
+
+  private String code;
+
+  private String name;
 
   public DbAirport() {}
 
@@ -15,12 +20,6 @@ public class DbAirport {
     this.code = code.value();
     this.name = name.value();
   }
-
-  @Id @GeneratedValue private long airport_id;
-
-  private String code;
-
-  private String name;
 
   public IATA getCode() {
     return IATA.of(code);

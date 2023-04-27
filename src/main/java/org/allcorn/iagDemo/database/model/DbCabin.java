@@ -10,14 +10,6 @@ import org.allcorn.iagDemo.model.CabinCode;
 @Table(name = "CABIN")
 public class DbCabin {
 
-  public DbCabin() {}
-
-  public DbCabin(int bonusPercentage, CabinCode code, String description) {
-    this.bonusPercentage = bonusPercentage;
-    this.code = code.value();
-    this.description = description;
-  }
-
   @Id @GeneratedValue private long cabin_id;
 
   private int bonusPercentage;
@@ -25,6 +17,14 @@ public class DbCabin {
   private String code;
 
   private String description;
+
+  public DbCabin() {}
+
+  public DbCabin(int bonusPercentage, CabinCode code, String description) {
+    this.bonusPercentage = bonusPercentage;
+    this.code = code.value();
+    this.description = description;
+  }
 
   public int getBonusPercentage() {
     return bonusPercentage;
